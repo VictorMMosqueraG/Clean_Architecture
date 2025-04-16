@@ -3,8 +3,9 @@ package clean.architecture.cleanarchitecture.infrastructure.mapper;
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
 import clean.architecture.cleanarchitecture.domain.model.roles.RolesModel;
 import clean.architecture.cleanarchitecture.infrastructure.entity.RolesEntity;
+import clean.architecture.cleanarchitecture.infrastructure.mapper.base.GenericMapper;
 
-public class RolesMapper {
+public class RolesMapper implements GenericMapper<RolesEntity, RolesModel, CreateRolesDto> {
     
     /**
      * Method to convert a RolesModel object to a RolesEntity object,
@@ -14,13 +15,15 @@ public class RolesMapper {
      * 
      * @return RolesEntity - Convert object
     */
-    public static RolesEntity modelToEntity(RolesModel roles){
+    @Override
+    public RolesEntity modelToEntity(RolesModel roles){
         //Create a new RolesEntity object
         RolesEntity rolesEntity = new RolesEntity();
 
         //Set the properties of the RolesEntity object
         rolesEntity.setId(roles.getId());
         rolesEntity.setName(roles.getName());
+        rolesEntity.setDescription(roles.getDescription());
 
         return rolesEntity;
     }
@@ -33,13 +36,15 @@ public class RolesMapper {
      * 
      * @return RolesModel - Convert object
     */
-    public static RolesModel entityToModel(RolesEntity rolesEntity){
+    @Override
+    public RolesModel entityToModel(RolesEntity rolesEntity){
         //Create a new RolesModel object
         RolesModel roles = new RolesModel();
 
         //Set the properties of the RolesModel object
         roles.setId(rolesEntity.getId());
         roles.setName(rolesEntity.getName());
+        roles.setDescription(rolesEntity.getDescription());
 
         return roles;
     }
@@ -52,15 +57,16 @@ public class RolesMapper {
      * 
      * @return RolesModel - Convert object
     */
-    public static RolesModel dtoToModel(CreateRolesDto dto){
+    @Override
+    public RolesModel dtoToModel(CreateRolesDto dto) {
         //Create a new RolesModel object
         RolesModel roles = new RolesModel();
 
         //Set the properties of the RolesModel object
         roles.setName(dto.getName());
+        roles.setDescription(dto.getDescription());
 
         return roles;
     }
 
-    //FIX: finding a better wat to do this
 }

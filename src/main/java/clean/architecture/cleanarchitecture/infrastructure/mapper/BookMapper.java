@@ -3,8 +3,9 @@ package clean.architecture.cleanarchitecture.infrastructure.mapper;
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
 import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
 import clean.architecture.cleanarchitecture.infrastructure.entity.BookEntity;
+import clean.architecture.cleanarchitecture.infrastructure.mapper.base.GenericMapper;
 
-public class BookMapper {
+public class BookMapper implements GenericMapper<BookEntity, BookModel, CreateBookDto> {
     
     /**
      * Method to convert a BookModel object to a BookEntity object,
@@ -14,14 +15,15 @@ public class BookMapper {
      * 
      * @return BookEntity - Convert object
     */
-    public static BookEntity modelToEntity(BookModel book) {
+    @Override
+    public  BookEntity modelToEntity(BookModel model) {
         //Create a new BookEntity object
         BookEntity bookEntity = new BookEntity();
 
         //Set the properties of the BookEntity object
-        bookEntity.setId(book.getId());
-        bookEntity.setTittle(book.getTittle());
-        bookEntity.setDescription(book.getDescription());
+        bookEntity.setId(model.getId());
+        bookEntity.setTittle(model.getTittle());
+        bookEntity.setDescription(model.getDescription());
 
         return bookEntity;
     }
@@ -34,7 +36,8 @@ public class BookMapper {
      * 
      * @return BookModel - Convert object
     */
-    public static BookModel entityToModel(BookEntity bookEntity) {
+    @Override
+    public  BookModel entityToModel(BookEntity bookEntity) {
         //Create a new BookModel object
         BookModel book = new BookModel();
 
@@ -54,7 +57,7 @@ public class BookMapper {
      * 
      * @return BookModel - Convert object
     */
-    public static BookModel dtoToModel(CreateBookDto dto){
+    public BookModel dtoToModel(CreateBookDto dto){
         //Create a new BookModel object
         BookModel book = new BookModel();
 
