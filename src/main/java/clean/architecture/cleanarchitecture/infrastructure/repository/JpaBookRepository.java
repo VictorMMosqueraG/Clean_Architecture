@@ -25,7 +25,7 @@ public class JpaBookRepository implements BookRepository {
      * 
      */
     @Override
-    public void addBook(BookModel book) {
+    public void createBook(BookModel book) {
         // Convert BookModel to Entity
         BookEntity bookEntity = BookMapper.modelToEntity(book);
 
