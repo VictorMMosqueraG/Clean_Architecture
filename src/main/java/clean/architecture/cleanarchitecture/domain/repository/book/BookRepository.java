@@ -1,8 +1,8 @@
-package clean.architecture.cleanarchitecture.domain.repository;
+package clean.architecture.cleanarchitecture.domain.repository.book;
 
 import java.util.Optional;
 
-import clean.architecture.cleanarchitecture.domain.model.BookModel;
+import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
 
 public interface BookRepository {
     

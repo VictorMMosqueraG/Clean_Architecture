@@ -3,8 +3,8 @@ package clean.architecture.cleanarchitecture.infrastructure.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import clean.architecture.cleanarchitecture.application.cases.CreateBookCase;
-import clean.architecture.cleanarchitecture.domain.repository.BookRepository;
+import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCase;
+import clean.architecture.cleanarchitecture.domain.repository.book.BookRepository;
 
 @Configuration
 public class BookConfig {

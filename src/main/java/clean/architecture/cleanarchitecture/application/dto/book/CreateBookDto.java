@@ -1,4 +1,4 @@
-package clean.architecture.cleanarchitecture.application.dto;
+package clean.architecture.cleanarchitecture.application.dto.book;
 
 public class CreateBookDto {
     

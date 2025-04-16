@@ -1,4 +1,4 @@
-package clean.architecture.cleanarchitecture.domain.model;
+package clean.architecture.cleanarchitecture.domain.model.book;
 
 public class BookModel {
     

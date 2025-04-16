@@ -1,11 +1,11 @@
-package clean.architecture.cleanarchitecture.infrastructure.repository;
+package clean.architecture.cleanarchitecture.infrastructure.repository.book;
 
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import clean.architecture.cleanarchitecture.domain.model.BookModel;
-import clean.architecture.cleanarchitecture.domain.repository.BookRepository;
+import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
+import clean.architecture.cleanarchitecture.domain.repository.book.BookRepository;
 import clean.architecture.cleanarchitecture.infrastructure.entity.BookEntity;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.BookMapper;
 

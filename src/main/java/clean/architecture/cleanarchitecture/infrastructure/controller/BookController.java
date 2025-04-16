@@ -3,8 +3,8 @@ package clean.architecture.cleanarchitecture.infrastructure.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import clean.architecture.cleanarchitecture.application.cases.CreateBookCase;
-import clean.architecture.cleanarchitecture.application.dto.CreateBookDto;
+import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCase;
+import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

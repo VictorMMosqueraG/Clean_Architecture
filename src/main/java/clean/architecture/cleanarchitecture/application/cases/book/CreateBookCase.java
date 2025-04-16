@@ -1,8 +1,8 @@
-package clean.architecture.cleanarchitecture.application.cases;
+package clean.architecture.cleanarchitecture.application.cases.book;
 
-import clean.architecture.cleanarchitecture.application.dto.CreateBookDto;
-import clean.architecture.cleanarchitecture.domain.model.BookModel;
-import clean.architecture.cleanarchitecture.domain.repository.BookRepository;
+import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
+import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
+import clean.architecture.cleanarchitecture.domain.repository.book.BookRepository;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.BookMapper;
 
 public class CreateBookCase {
