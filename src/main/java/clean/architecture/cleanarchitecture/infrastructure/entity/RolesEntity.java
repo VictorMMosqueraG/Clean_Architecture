@@ -7,38 +7,35 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "book")
-public class BookEntity {
+@Table(name = "roles")
+public class RolesEntity {
     
+    // COMEBACK: adding properties
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    // COMEBACK: Adding properties
-    private String tittle;
+    private String name;
     private String description;
 
-    //Getters and Setters
+    // Getters and Setters
     public int getId() {
         return id;
     }
-
     public void setId(int id) {
         this.id = id;
     }
-
-    public String getTittle() {
-        return tittle;
+    public String getName() {
+        return name;
     }
-
-    public void setTittle(String tittle) {
-        this.tittle = tittle;
+    public void setName(String name) {
+        this.name = name;
     }
-
     public String getDescription() {
         return description;
     }
-    
     public void setDescription(String description) {
         this.description = description;
     }
+
+    
 }
