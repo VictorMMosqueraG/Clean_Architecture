@@ -1,8 +1,19 @@
-package clean.architecture.cleanarchitecture.domain.model;
+package clean.architecture.cleanarchitecture.infrastructure.entity;
 
-public class BockModel {
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "book")
+public class BookEntity {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
     private String tittle;
     private String description;
 
