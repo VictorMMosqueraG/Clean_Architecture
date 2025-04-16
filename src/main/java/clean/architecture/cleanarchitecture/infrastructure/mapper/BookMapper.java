@@ -1,10 +1,14 @@
 package clean.architecture.cleanarchitecture.infrastructure.mapper;
 
+import org.springframework.stereotype.Component;
+
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
 import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
 import clean.architecture.cleanarchitecture.infrastructure.entity.BookEntity;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.base.GenericMapper;
 
+
+@Component
 public class BookMapper implements GenericMapper<BookEntity, BookModel, CreateBookDto> {
     
     /**

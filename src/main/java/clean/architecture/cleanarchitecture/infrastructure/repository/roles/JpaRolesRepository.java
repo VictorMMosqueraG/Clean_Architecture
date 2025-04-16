@@ -11,9 +11,14 @@ import clean.architecture.cleanarchitecture.infrastructure.mapper.RolesMapper;
 public class JpaRolesRepository implements RolesRepository {
 
     private final SpringDataRolesRepository repository;
+    private final RolesMapper rolesMapper;
 
-    public JpaRolesRepository(SpringDataRolesRepository repository) {
+    public JpaRolesRepository(
+        SpringDataRolesRepository repository,
+        RolesMapper rolesMapper
+    ) {
         this.repository = repository;
+        this.rolesMapper = rolesMapper;
     }
 
     /**
@@ -28,7 +33,7 @@ public class JpaRolesRepository implements RolesRepository {
     @Override
     public void createRole(RolesModel role) {
         //Convert RolesModel to RolesEntity
-        RolesEntity rolesEntity = RolesMapper.modelToEntity(role);
+        RolesEntity rolesEntity = rolesMapper.modelToEntity(role);
 
         //Save the roles
         repository.save(rolesEntity);

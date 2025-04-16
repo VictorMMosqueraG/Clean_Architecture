@@ -8,9 +8,14 @@ import clean.architecture.cleanarchitecture.infrastructure.mapper.BookMapper;
 public class CreateBookCase {
     
     private final BookRepository repository;
+    private final BookMapper bookMapper;
 
-    public CreateBookCase(BookRepository repository) {
+    public CreateBookCase(
+        BookRepository repository,
+        BookMapper bookMapper
+    ) {
         this.repository = repository;
+        this.bookMapper = bookMapper;
     }
 
     /**
@@ -21,7 +26,7 @@ public class CreateBookCase {
     public void createBook(CreateBookDto dto){
 
         //Create to bookModel object
-        BookModel bookModel = BookMapper.dtoToModel(dto);
+        BookModel bookModel = bookMapper.dtoToModel(dto);
 
         //Save the bookModel object
         repository.createBook(bookModel);

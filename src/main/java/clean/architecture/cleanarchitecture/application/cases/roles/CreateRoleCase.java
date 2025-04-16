@@ -8,9 +8,14 @@ import clean.architecture.cleanarchitecture.infrastructure.mapper.RolesMapper;
 public class CreateRoleCase {
 
     private final RolesRepository repository;
+    private final RolesMapper rolesMapper;
 
-    public CreateRoleCase(RolesRepository repository) {
+    public CreateRoleCase(
+        RolesRepository repository,
+        RolesMapper rolesMapper
+    ) {
         this.repository = repository;
+        this.rolesMapper = rolesMapper;
     }
 
     /**
@@ -26,7 +31,7 @@ public class CreateRoleCase {
     */
     public void createRoles(CreateRolesDto dto){
         // Convert Dto to model
-        RolesModel roleModel = RolesMapper.dtoToModel(dto);
+        RolesModel roleModel = rolesMapper.dtoToModel(dto);
 
         //Save the roles
         repository.createRole(roleModel);    

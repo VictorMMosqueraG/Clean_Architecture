@@ -13,9 +13,14 @@ import clean.architecture.cleanarchitecture.infrastructure.mapper.BookMapper;
 public class JpaBookRepository implements BookRepository {
 
     private final SpringDataBookRepository repository;
+    private final BookMapper bookMapper;
 
-    public JpaBookRepository(SpringDataBookRepository repository) {
+    public JpaBookRepository(
+        SpringDataBookRepository repository,
+        BookMapper bookMapper
+    ) {
         this.repository = repository;
+        this.bookMapper = bookMapper;
     }
 
     /**
@@ -27,7 +32,7 @@ public class JpaBookRepository implements BookRepository {
     @Override
     public void createBook(BookModel book) {
         // Convert BookModel to Entity
-        BookEntity bookEntity = BookMapper.modelToEntity(book);
+        BookEntity bookEntity = bookMapper.modelToEntity(book);
 
         //save the book
         repository.save(bookEntity);
@@ -43,7 +48,7 @@ public class JpaBookRepository implements BookRepository {
         return repository.findAll()
             .stream()
             .findFirst()
-            .map(BookMapper::entityToModel);
+            .map(bookMapper::entityToModel);
     }
     
 }

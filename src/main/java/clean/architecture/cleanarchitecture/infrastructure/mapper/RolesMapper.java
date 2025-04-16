@@ -1,10 +1,13 @@
 package clean.architecture.cleanarchitecture.infrastructure.mapper;
 
+import org.springframework.stereotype.Component;
+
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
 import clean.architecture.cleanarchitecture.domain.model.roles.RolesModel;
 import clean.architecture.cleanarchitecture.infrastructure.entity.RolesEntity;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.base.GenericMapper;
 
+@Component
 public class RolesMapper implements GenericMapper<RolesEntity, RolesModel, CreateRolesDto> {
     
     /**
