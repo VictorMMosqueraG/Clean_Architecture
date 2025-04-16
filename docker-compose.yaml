@@ -1,0 +1,10 @@
+version: '3.8' #Version of docker-compose
+services:
+  db:
+    image: postgres:14.1-alpine #Postgres image version
+    ports:
+      - "5432:5432" #Postgres port
+    environment:
+      POSTGRES_PASSWORD: MySecretPassword #Password to database. the user by default is postgres
+      POSTGRES_DB: clean_architecture #Name to database
+    container_name: clean_architecture_db #Name to container
