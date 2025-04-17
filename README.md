@@ -7,6 +7,7 @@ To set up run this project, follow these steps:
 
 - [Backend Setup and Dependencies](#backend-setup-and-dependencies)
 - [Backend Architecture Breakdown](#backend-architecture-breakdown)
+- [Environments](#environments)
 
 ## Backend Setup and Dependencies
 
@@ -89,4 +90,7 @@ This project use Clean Architecture. It is structured to ensure scalability,test
 - Mapper: Converts to objects
 - Repository: Implements repository class and interface with JPA
 
+## Environments
+For this project it is using environments dev, stage and prod, copy a data from application.properties and create new file with the name application-dev.properties
 
+**NOTE**: The file application-dev.properties it is change dev for stage or prod example application-stage.properties or application-prod.properties (you can have the 3 files with this names) and the file original application.properties changed value the spring.profiles.active=dev a spring.profile.active=stage or spring.profiles.active=prod
