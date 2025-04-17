@@ -1,5 +1,6 @@
 package clean.architecture.cleanarchitecture.infrastructure.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,7 +15,18 @@ public class RolesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(
+        name = "Name", 
+        nullable = false,
+        unique = true
+    )
     private String name;
+
+    @Column(
+        name = "Description", 
+        nullable = false
+    )
     private String description;
 
     // Getters and Setters

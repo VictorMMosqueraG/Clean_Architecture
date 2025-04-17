@@ -10,7 +10,13 @@ public enum ApiErrorMessage {
     VALIDATION_ERROR(
         "Validation error occurred. Please check your input.", 
         400
+    ),
+
+    DUPLICATE_RESOURCE(
+        "Duplicate resource found. It may already exist.",
+        409
     );
+
 
     private final String message;
     private final int status;

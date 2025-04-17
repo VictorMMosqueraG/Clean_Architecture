@@ -1,12 +1,23 @@
 package clean.architecture.cleanarchitecture.application.dto.book;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class CreateBookDto {
 
+    @Size(
+        min = 5, 
+        max = 255, 
+        message = "tittle must be between 5 and 255 characters"
+    )
     @NotBlank(message = "Tittle is required, it cannot be blank or null")
     private String tittle;
 
+    @Size(
+        min = 5, 
+        max = 255, 
+        message = "description must be between 5 and 255 characters"
+    )
     @NotBlank(message = "Description is required, it cannot be blank or null")
     private String description;
 

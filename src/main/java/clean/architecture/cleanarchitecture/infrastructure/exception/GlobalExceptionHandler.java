@@ -2,6 +2,7 @@ package clean.architecture.cleanarchitecture.infrastructure.exception;
 
 import java.util.stream.Collectors;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -46,6 +47,42 @@ public class GlobalExceptionHandler {
         // Return ResponseEntity with ApiErrorResponse
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiErrorResponse);
     }
+
+    /**
+     * Method to handle DataIntegrityViolationException(Already exists),
+     * and return a custom error response (Conflict).
+     * 
+     * @param ex The DataIntegrityViolationException that was thrown.
+     * 
+     * @param request The HttpServletRequest object.
+    */
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ApiErrorResponse> handleDataIntegrityViolationException(
+        DataIntegrityViolationException ex,
+        HttpServletRequest request
+    ) {
+
+        //Extract message 
+        String rawMessage = ex.getRootCause() != null
+        ? ex.getRootCause().getMessage(): ex.getMessage();
+
+        // Check if the message contains "Key" and extract the useful part
+        String usefulMessage = rawMessage.contains("Key")
+        ? rawMessage.substring(rawMessage.indexOf("Key"))
+        : rawMessage;
+
+        // Create ApiErrorResponse object
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
+            ApiErrorMessage.DUPLICATE_RESOURCE.getStatus(),
+            ApiErrorMessage.DUPLICATE_RESOURCE.getMessage(),
+            usefulMessage,
+            request.getRequestURI()
+        );
+
+        // Return ResponseEntity with ApiErrorResponse
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(apiErrorResponse);
+    }
+
 
     /*
      * Method to handle all other exceptions 
