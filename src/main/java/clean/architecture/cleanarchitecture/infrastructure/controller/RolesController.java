@@ -7,15 +7,18 @@ import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCa
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
 import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponse;
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping("role")
+@Validated
 public class RolesController {
     
     private final CreateRoleCase createRoleCase;
@@ -36,6 +39,7 @@ public class RolesController {
     */
     @PostMapping()
     public ResponseEntity<?> createRoles(
+        @Valid
         @RequestBody CreateRolesDto dto
     ) {
         // Call the use case to create a role

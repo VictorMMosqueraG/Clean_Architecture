@@ -1,9 +1,14 @@
 package clean.architecture.cleanarchitecture.application.dto.roles;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class CreateRolesDto {
     
-    //COMEBACK: Adding validation
+    
+    @NotBlank(message = "Name is required, it cannot be blank or null")
     private String name;
+
+    @NotBlank(message = "Description is required, it cannot be blank or null")
     private String description;
 
     //Getters and Setters

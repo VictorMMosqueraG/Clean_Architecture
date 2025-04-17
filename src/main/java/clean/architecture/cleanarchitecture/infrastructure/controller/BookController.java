@@ -7,16 +7,18 @@ import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCas
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
 import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponse;
-
+import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
 @RequestMapping("book")
+@Validated
 public class BookController {
     
     private final CreateBookCase createBookCase;
@@ -37,6 +39,7 @@ public class BookController {
     */
     @PostMapping()
     public ResponseEntity<?> createBook(
+        @Valid
         @RequestBody CreateBookDto dto
     ) {
         // Call the use case to create a book
