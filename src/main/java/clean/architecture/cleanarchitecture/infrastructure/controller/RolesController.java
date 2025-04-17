@@ -6,7 +6,13 @@ import org.springframework.web.bind.annotation.RestController;
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
-import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponse;
+import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponseData;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import org.springframework.http.HttpStatus;
@@ -18,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("role")
+@Tag(name = "Role")
 @Validated
 public class RolesController {
     
@@ -37,6 +44,52 @@ public class RolesController {
      * 
      * @return ResponseEntity with a success message and HTTP status code
     */
+    @Operation(
+        summary = "Create a new Role",
+        description = "Create a new Role."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "201",
+            description = "Role created successfully",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"message\": \"Role created successfully\", \"status\": 201}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "409",
+            description = "Duplicate resource found. It may already exist.",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 409, \"message\": \"Duplicate resource found. It may already exist.\", \"error\": \"Key (name)=(Role Name) already exists.\", \"path\": \"/role\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Validation error occurred. Please check your input.",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 400, \"message\": \"Validation error occurred. Please check your input.\", \"error\": \"name: Name is required, it cannot be blank or null\", \"path\": \"/role\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 500, \"message\": \"An unexpected error occurred. Please try again later.\", \"error\": \"An unexpected error occurred. Please try again later.\", \"path\": \"/role\"}")
+                )
+            }
+        )
+    })
     @PostMapping()
     public ResponseEntity<?> createRoles(
         @Valid
@@ -48,7 +101,7 @@ public class RolesController {
         // Return and indicate success
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(new ApiResponse(
+            .body(new ApiResponseData(
                 ApiResponseStatus.ROLE_CREATE_SUCCESS.getMessage(),
                 ApiResponseStatus.ROLE_CREATE_SUCCESS.getStatus())
             );

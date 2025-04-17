@@ -1,12 +1,12 @@
 package clean.architecture.cleanarchitecture.infrastructure.response;
 
-public class ApiResponse {
+public class ApiResponseData {
     
     private String message;
     private int status;
 
     // Constructor
-    public ApiResponse(String message, int status) {
+    public ApiResponseData(String message, int status) {
         this.message = message;
         this.status = status;
     }

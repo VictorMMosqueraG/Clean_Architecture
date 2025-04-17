@@ -1,5 +1,6 @@
 package clean.architecture.cleanarchitecture.application.dto.book;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -11,6 +12,7 @@ public class CreateBookDto {
         message = "tittle must be between 5 and 255 characters"
     )
     @NotBlank(message = "Tittle is required, it cannot be blank or null")
+    @Schema(example = "Book Tittle")
     private String tittle;
 
     @Size(
@@ -19,6 +21,7 @@ public class CreateBookDto {
         message = "description must be between 5 and 255 characters"
     )
     @NotBlank(message = "Description is required, it cannot be blank or null")
+    @Schema(example = "Book Description")
     private String description;
 
     // Getters and Setters
