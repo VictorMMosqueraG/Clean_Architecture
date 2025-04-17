@@ -3,6 +3,11 @@ This repository is intended to study clean architecture and learn how to apply i
 
 To set up run this project, follow these steps:
 
+## Table of Contents
+
+- [Backend Setup and Dependencies](#backend-setup-and-dependencies)
+- [Backend Architecture Breakdown](#backend-architecture-breakdown)
+
 ## Backend Setup and Dependencies
 
 1. **Docker Setup**: Ensue that docker is installed on your system. Docker will be used to manage the database container for the development environment. If you don't have Docker installed, you can download and install it from the docker website.
@@ -39,6 +44,13 @@ This command is a one-time operation dedicate to creating the necessary image an
     ```
     docker stop "container-name"
     ```
+
+6. **Running project**: Then, after following the last steps, can you run this project using the following command:
+    
+    ```
+    ./gradlew bootRun
+    ```
+
 ## Backend Architecture Breakdown
 
 This project use Clean Architecture. It is structured to ensure scalability,testability, and maintainability.
