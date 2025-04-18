@@ -61,5 +61,24 @@ public class JpaRolesRepository implements RolesRepository {
         //Convert RolesEntity to RolesModel
         return rolesMapper.entityToModel(rolesEntity);
     }
+
+    /**
+     * Method to delete a role by id,
+     * it take an id and find the roles in the system,
+     * if the roles is not found it will throw a NoSuchElementException,
+     * if the roles is found it will delete the roles
+     * 
+     * @param Integer id
+     * 
+     * @return void
+    */
+    @Override
+    public void deleteRoles(Integer id) {
+        //Valid if the roles exist
+        this.getRolesById(id);
+
+        //Delete role by id
+        repository.deleteById(id);
+    }
     
 }

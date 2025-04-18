@@ -3,6 +3,7 @@ package clean.architecture.cleanarchitecture.infrastructure.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
+import clean.architecture.cleanarchitecture.application.cases.roles.DeleteRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
@@ -20,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -32,14 +34,17 @@ public class RolesController {
 
     
     private final CreateRoleCase createRoleCase;
-
     private final FindByIdRolesCase findByIDRoleCase;
+    private final DeleteRolesCase deleteRoleCase;
 
     public RolesController(
         CreateRoleCase createRoleCase, 
-        FindByIdRolesCase findByIDRoleCase) {
+        FindByIdRolesCase findByIDRoleCase,
+        DeleteRolesCase deleteRoleCase
+    ) {
         this.createRoleCase = createRoleCase;
         this.findByIDRoleCase = findByIDRoleCase;
+        this.deleteRoleCase = deleteRoleCase;
     }
 
     /**
@@ -163,6 +168,66 @@ public class RolesController {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(findByIDRoleCase.findById(id));
+    }
+
+    /**
+     * Method to delete a role by id,
+     * it take an id as a path variable and call the deleteRole from the use case.
+     * it returns a ResponseEntity with a success message and HTTP status code.
+     * 
+     * @param id the id of the role to be deleted
+     * 
+     * @return ResponseEntity with a success message and HTTP status code
+     * 
+    */
+    @Operation(
+        summary = "Delete a Role by ID",
+        description = "Delete a Role by ID."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Role deleted successfully",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"message\": \"Role deleted successfully\", \"status\": 200}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Role not found",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 404, \"message\": \"Resource not found. Please check the resource ID..\", \"error\": \"Role not found\", \"path\": \"/role/{id}\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 500, \"message\": \"An unexpected error occurred. Please try again later.\", \"error\": \"An unexpected error occurred. Please try again later.\", \"path\": \"/Role\"}")
+                )
+            }
+        )
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteRoles(@PathVariable Integer id) {
+        // Call the use case to delete a role
+        deleteRoleCase.deleteRoles(id);
+
+        // Return and indicate success
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(new ApiResponseData(
+                ApiResponseStatus.ROLE_DELETE_SUCCESS.getMessage(),
+                ApiResponseStatus.ROLE_DELETE_SUCCESS.getStatus())
+            );
     }
     
 

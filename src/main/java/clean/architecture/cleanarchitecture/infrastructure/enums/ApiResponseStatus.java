@@ -7,7 +7,8 @@ public enum ApiResponseStatus {
     BOOK_DELETE_SUCCESS("Book delete successfully", 200),
 
     // Role
-    ROLE_CREATE_SUCCESS("Role create successfully", 201);
+    ROLE_CREATE_SUCCESS("Role create successfully", 201),
+    ROLE_DELETE_SUCCESS("Role delete successfully", 200);
     
     private final String message;
     private final int status;

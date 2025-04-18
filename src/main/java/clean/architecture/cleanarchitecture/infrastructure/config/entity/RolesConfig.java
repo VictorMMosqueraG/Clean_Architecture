@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
+import clean.architecture.cleanarchitecture.application.cases.roles.DeleteRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
 import clean.architecture.cleanarchitecture.domain.repository.roles.RolesRepository;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.RolesMapper;
@@ -50,5 +51,23 @@ public class RolesConfig {
         RolesRepository repository
     ){
         return new FindByIdRolesCase(repository);
+    }
+
+    /**
+     * This method creates a bean of type DeleteRolesCase.
+     * It takes a RolesRepository as a parameter and returns a new instance of DeleteRolesCase.
+     * 
+     * @param repository The RolesRepository instance used to access role data.
+     * 
+     * The DeleteRolesCase bean can be used in controllers or other components to handle role deletion logic.
+     * By using dependency injection, we can easily swap out the implementation of the RolesRepository
+     * with a different implementation (e.g., a mock repository for testing) without changing the code in the DeleteRolesCase.
+     * This promotes loose coupling and makes the code more maintainable and testable.
+    */
+    @Bean
+    public DeleteRolesCase deleteRolesCase(
+        RolesRepository repository
+    ){
+        return new DeleteRolesCase(repository);
     }
 }

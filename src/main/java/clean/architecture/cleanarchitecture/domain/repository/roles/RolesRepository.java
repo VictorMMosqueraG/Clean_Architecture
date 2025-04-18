@@ -6,4 +6,5 @@ public interface RolesRepository {
     
     public void createRole(RolesModel role);
     public RolesModel getRolesById(Integer id);
+    public void deleteRoles(Integer id);
 }
