@@ -13,7 +13,14 @@ public class FindByIDBookCase {
         this.repository = repository;
     }
 
-    // COMEBACK: Missing Documentation
+    /**
+     * Method to find by id a book,
+     * it take a id and find by id, then return the book
+     * 
+     * @param id the id of the book to find
+     * 
+     * @return the book found
+     */ 
     public BookModel findById(Integer id) {
         // Find the book by ID and return it
         return repository.getBookById(id);        

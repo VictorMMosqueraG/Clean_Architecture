@@ -117,6 +117,52 @@ public class BookController {
             );
     }
 
+    /**
+     * Method to find by id a book in the system,
+     * it take an id and calling the method findById from the use case
+     * FindByIDBookCase to retrieve the book information.
+     * 
+     * @param id Integer representing the ID of the book to be retrieved
+     * 
+     * @return ResponseEntity with the book information and HTTP status code
+    */
+
+    @Operation(
+        summary = "Find a Book by ID",
+        description = "Find a Book by ID."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "book found successfully",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(
+                example = "{ \"id\": 1, \"name\": \"testBook\", \"description\": \"descriptionBook\" }"
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Book not found",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 404, \"message\": \"Resource not found. Please check the resource ID..\", \"error\": \"Book not found\", \"path\": \"/book/{id}\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 500, \"message\": \"An unexpected error occurred. Please try again later.\", \"error\": \"An unexpected error occurred. Please try again later.\", \"path\": \"/book\"}")
+                )
+            }
+        )
+    })
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Integer id) {
         return ResponseEntity
