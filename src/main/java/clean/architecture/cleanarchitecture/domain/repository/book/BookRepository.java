@@ -9,4 +9,5 @@ public interface BookRepository {
     public void createBook(BookModel book);
     public Optional<BookModel> getBook();
     public BookModel getBookById(Integer id);
+    public void deleteBook(Integer id);
 }

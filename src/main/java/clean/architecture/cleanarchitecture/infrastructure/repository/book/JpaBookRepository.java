@@ -53,6 +53,16 @@ public class JpaBookRepository implements BookRepository {
     }
 
 
+    /**
+     * This method is used to get book by id from the database,
+     * it take an id and find book in the system,
+     * if not found, it will throw an exception
+     * if found, it will return the book. 
+     * 
+     * @param Integer id
+     * 
+     * @return BookModel book
+     */ 
     @Override
      public BookModel getBookById(Integer id) {
         // Find the book by ID, if not found, throw an exception
@@ -61,6 +71,25 @@ public class JpaBookRepository implements BookRepository {
 
         //Convert BookEntity to BookModel and return it
         return bookMapper.entityToModel(bookEntity);
+    }
+
+    /**
+     * This method is used to delete book in the database,
+     * it take an id and find book in the system,
+     * if not found, it will throw exception,
+     * if found, it will delete the book.
+     * 
+     * @param Integer id
+     * 
+     * @return void
+    */
+    @Override
+    public void deleteBook(Integer id) {
+        //Valid if the book exists
+        this.getBookById(id);
+
+        //Delete the book
+        repository.deleteById(id);
     }
     
 }

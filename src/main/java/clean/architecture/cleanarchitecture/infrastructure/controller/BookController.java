@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCase;
+import clean.architecture.cleanarchitecture.application.cases.book.DeleteBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.FindByIDBookCase;
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -34,14 +36,17 @@ public class BookController {
     
     private final CreateBookCase createBookCase;
     private final FindByIDBookCase findByIDBookCase;
+    private final DeleteBookCase deleteBookCase;
 
 
     public BookController(
         CreateBookCase createBookCase,
-        FindByIDBookCase findByIDBookCase
+        FindByIDBookCase findByIDBookCase,
+        DeleteBookCase deleteBookCase
     ) {
         this.createBookCase = createBookCase;
         this.findByIDBookCase = findByIDBookCase;
+        this.deleteBookCase = deleteBookCase;
     }
 
     /**
@@ -164,10 +169,68 @@ public class BookController {
         )
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Integer id) {
+    public ResponseEntity<?> findByIdBook(@PathVariable Integer id) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(findByIDBookCase.findById(id));//Call the method FindByID
+    }
+
+    /**
+     * This method is to delete a book from the system,
+     * it take an id and calling the method deleteBook from the use case
+     * 
+     * @param id Integer representing the ID of the book to be deleted
+     * 
+     * @return ResponseEntity with a success message and HTTP status code
+    */
+    @Operation(
+        summary = "Delete a Book by ID",
+        description = "Delete a Book by ID."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Book deleted successfully",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"message\": \"Book deleted successfully\", \"status\": 200}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Book not found",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 404, \"message\": \"Resource not found. Please check the resource ID..\", \"error\": \"Book not found\", \"path\": \"/book/{id}\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 500, \"message\": \"An unexpected error occurred. Please try again later.\", \"error\": \"An unexpected error occurred. Please try again later.\", \"path\": \"/book\"}")
+                )
+            }
+        )
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteBook(@PathVariable Integer id) {
+        // Call the use case to delete a book
+        deleteBookCase.deleteBookCase(id);
+        
+        // Return a response indicating success
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(new ApiResponseData(
+                ApiResponseStatus.BOOK_DELETE_SUCCESS.getMessage(), 
+                ApiResponseStatus.BOOK_DELETE_SUCCESS.getStatus())
+            );
     }
     
     
