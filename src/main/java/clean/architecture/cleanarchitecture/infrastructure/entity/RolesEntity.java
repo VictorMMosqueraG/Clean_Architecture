@@ -11,7 +11,6 @@ import jakarta.persistence.Table;
 @Table(name = "roles")
 public class RolesEntity {
     
-    // COMEBACK: adding properties
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

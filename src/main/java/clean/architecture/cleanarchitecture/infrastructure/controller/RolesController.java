@@ -2,8 +2,8 @@ package clean.architecture.cleanarchitecture.infrastructure.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
+import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
 import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponseData;
@@ -20,6 +20,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
@@ -27,11 +29,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Tag(name = "Role")
 @Validated
 public class RolesController {
+
     
     private final CreateRoleCase createRoleCase;
 
-    public RolesController(CreateRoleCase createRoleCase) {
+    private final FindByIdRolesCase findByIDRoleCase;
+
+    public RolesController(
+        CreateRoleCase createRoleCase, 
+        FindByIdRolesCase findByIDRoleCase) {
         this.createRoleCase = createRoleCase;
+        this.findByIDRoleCase = findByIDRoleCase;
     }
 
     /**
@@ -106,5 +114,56 @@ public class RolesController {
                 ApiResponseStatus.ROLE_CREATE_SUCCESS.getStatus())
             );
     }
+
+    /**
+     * Method to handle validation errors.
+     * It returns a ResponseEntity with a 400 Bad Request status and an error message.
+     * 
+     * @param ex the exception that was thrown
+     * @return ResponseEntity with a 400 Bad Request status and an error message
+    */
+    @Operation(
+        summary = "Find Role by ID",
+        description = "Find Role by ID."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Role found successfully",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(
+                example = "{ \"id\": 1, \"name\": \"testRole\", \"description\": \"descriptionRole\" }"
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404",
+            description = "Role not found",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 404, \"message\": \"Resource not found. Please check the resource ID..\", \"error\": \"Role not found\", \"path\": \"/role/{id}\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 500, \"message\": \"An unexpected error occurred. Please try again later.\", \"error\": \"An unexpected error occurred. Please try again later.\", \"path\": \"/role\"}")
+                )
+            }
+        )
+    })
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Integer id) {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(findByIDRoleCase.findById(id));
+    }
     
+
 }

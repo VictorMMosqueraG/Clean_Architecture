@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
+import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
 import clean.architecture.cleanarchitecture.domain.repository.roles.RolesRepository;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.RolesMapper;
 
@@ -31,5 +32,23 @@ public class RolesConfig {
         RolesMapper rolesMapper
     ){
         return new CreateRoleCase(repository, rolesMapper);
+    }
+
+    /**
+     * This method creates a bean of type FindByIdRolesCase.
+     * It takes a RolesRepository as a parameter and returns a new instance of FindByIdRolesCase.
+     *  
+     * @param repository The RolesRepository instance used to access role data.
+     * 
+     * The FindByIdRolesCase bean can be used in controllers or other components to handle role retrieval logic.
+     * By using dependency injection, we can easily swap out the implementation of the RolesRepository
+     * with a different implementation (e.g., a mock repository for testing) without changing the code in the FindByIdRolesCase.
+     * This promotes loose coupling and makes the code more maintainable and testable.
+    */
+    @Bean
+    public FindByIdRolesCase findByIDRoleCase(
+        RolesRepository repository
+    ){
+        return new FindByIdRolesCase(repository);
     }
 }

@@ -57,7 +57,7 @@ public class JpaBookRepository implements BookRepository {
      public BookModel getBookById(Integer id) {
         // Find the book by ID, if not found, throw an exception
         BookEntity bookEntity = repository.findById(id)
-            .orElseThrow(() -> new NoSuchElementException("Book not found")); //FIX: Change this to a custom exception
+            .orElseThrow(() -> new NoSuchElementException("Book not found")); 
 
         //Convert BookEntity to BookModel and return it
         return bookMapper.entityToModel(bookEntity);

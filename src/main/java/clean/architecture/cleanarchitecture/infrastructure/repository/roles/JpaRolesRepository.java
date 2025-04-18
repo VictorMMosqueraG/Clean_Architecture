@@ -1,5 +1,7 @@
 package clean.architecture.cleanarchitecture.infrastructure.repository.roles;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.stereotype.Repository;
 
 import clean.architecture.cleanarchitecture.domain.model.roles.RolesModel;
@@ -37,6 +39,27 @@ public class JpaRolesRepository implements RolesRepository {
 
         //Save the roles
         repository.save(rolesEntity);
+    }
+
+
+    /*
+     * Method to get roles by id,
+     * it take the id of the role and call the method finById from the repository,
+     * if the role is not found it will throw a NoSuchElementException,
+     * if the role is found it will convert the RolesEntity to RolesModel
+     * 
+     * @param Integer id 
+     * 
+     * @return RolesModel 
+    */
+    @Override
+    public RolesModel getRolesById(Integer id) {
+        //Get the roles by id
+        RolesEntity rolesEntity = repository.findById(id)
+        .orElseThrow(() -> new NoSuchElementException("Role not found"));
+
+        //Convert RolesEntity to RolesModel
+        return rolesMapper.entityToModel(rolesEntity);
     }
     
 }

@@ -5,4 +5,5 @@ import clean.architecture.cleanarchitecture.domain.model.roles.RolesModel;
 public interface RolesRepository {
     
     public void createRole(RolesModel role);
+    public RolesModel getRolesById(Integer id);
 }
