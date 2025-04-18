@@ -15,6 +15,11 @@ public enum ApiErrorMessage {
     DUPLICATE_RESOURCE(
         "Duplicate resource found. It may already exist.",
         409
+    ),
+
+    RESOURCE_NOT_FOUND(
+        "Resource not found. Please check the resource ID.",
+        404
     );
 
 

@@ -1,4 +1,4 @@
-package clean.architecture.cleanarchitecture.infrastructure.config;
+package clean.architecture.cleanarchitecture.infrastructure.config.entity;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

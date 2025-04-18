@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCase;
+import clean.architecture.cleanarchitecture.application.cases.book.FindByIDBookCase;
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
 import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponseData;
@@ -20,6 +21,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 @RestController
@@ -29,9 +33,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class BookController {
     
     private final CreateBookCase createBookCase;
+    private final FindByIDBookCase findByIDBookCase;
 
-    public BookController(CreateBookCase createBookCase) {
+
+    public BookController(
+        CreateBookCase createBookCase,
+        FindByIDBookCase findByIDBookCase
+    ) {
         this.createBookCase = createBookCase;
+        this.findByIDBookCase = findByIDBookCase;
     }
 
     /**
@@ -106,5 +116,13 @@ public class BookController {
                 ApiResponseStatus.BOOK_CREATE_SUCCESS.getStatus())
             );
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Integer id) {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(findByIDBookCase.findById(id));//Call the method FindByID
+    }
+    
     
 }

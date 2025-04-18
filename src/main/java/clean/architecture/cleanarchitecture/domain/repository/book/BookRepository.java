@@ -7,6 +7,6 @@ import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
 public interface BookRepository {
     
     public void createBook(BookModel book);
-
     public Optional<BookModel> getBook();
+    public BookModel getBookById(Integer id);
 }

@@ -1,5 +1,6 @@
 package clean.architecture.cleanarchitecture.infrastructure.repository.book;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
@@ -49,6 +50,17 @@ public class JpaBookRepository implements BookRepository {
             .stream()
             .findFirst()
             .map(bookMapper::entityToModel);
+    }
+
+
+    @Override
+     public BookModel getBookById(Integer id) {
+        // Find the book by ID, if not found, throw an exception
+        BookEntity bookEntity = repository.findById(id)
+            .orElseThrow(() -> new NoSuchElementException("Book not found")); //FIX: Change this to a custom exception
+
+        //Convert BookEntity to BookModel and return it
+        return bookMapper.entityToModel(bookEntity);
     }
     
 }

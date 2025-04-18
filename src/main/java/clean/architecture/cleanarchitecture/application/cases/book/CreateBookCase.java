@@ -9,7 +9,7 @@ public class CreateBookCase {
     
     private final BookRepository repository;
     private final BookMapper bookMapper;
-
+    
     public CreateBookCase(
         BookRepository repository,
         BookMapper bookMapper

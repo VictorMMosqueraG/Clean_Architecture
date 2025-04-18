@@ -1,9 +1,10 @@
-package clean.architecture.cleanarchitecture.infrastructure.config;
+package clean.architecture.cleanarchitecture.infrastructure.config.entity;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCase;
+import clean.architecture.cleanarchitecture.application.cases.book.FindByIDBookCase;
 import clean.architecture.cleanarchitecture.domain.repository.book.BookRepository;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.BookMapper;
 
@@ -33,5 +34,12 @@ public class BookConfig {
         BookMapper bookMapper
     ){
         return new CreateBookCase(repository, bookMapper);
+    }
+
+    @Bean
+    public FindByIDBookCase findByIDBookCase(
+        BookRepository repository
+    ){
+        return new FindByIDBookCase(repository);
     }
 }

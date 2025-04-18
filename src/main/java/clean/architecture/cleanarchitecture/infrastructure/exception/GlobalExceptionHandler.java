@@ -1,5 +1,6 @@
 package clean.architecture.cleanarchitecture.infrastructure.exception;
 
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -83,6 +84,30 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(apiErrorResponse);
     }
 
+    /**
+     * Method to handle NoSuchElementException (Resource not found),
+     * and return a custom error response (Not Found).
+     * 
+     * @param ex The NoSuchElementException that was thrown.
+     * @param request The HttpServletRequest object.
+    */
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<ApiErrorResponse> handleNoSuchElementException(
+        NoSuchElementException ex,
+        HttpServletRequest request
+    ) {
+        // Create ApiErrorResponse object
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
+            ApiErrorMessage.RESOURCE_NOT_FOUND.getStatus(),
+            ApiErrorMessage.RESOURCE_NOT_FOUND.getMessage(),
+            ex.getMessage(),
+            request.getRequestURI()
+        );
+
+        // Return ResponseEntity with ApiErrorResponse
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiErrorResponse);
+    }
+
 
     /*
      * Method to handle all other exceptions 
@@ -109,6 +134,7 @@ public class GlobalExceptionHandler {
         // Return ResponseEntity with ApiErrorResponse
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(apiErrorResponse);
     }
+
 
 
 }
