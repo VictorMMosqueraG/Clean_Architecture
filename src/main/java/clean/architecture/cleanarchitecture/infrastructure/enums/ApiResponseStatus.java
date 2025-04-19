@@ -9,7 +9,8 @@ public enum ApiResponseStatus {
 
     // Role
     ROLE_CREATE_SUCCESS("Role create successfully", 201),
-    ROLE_DELETE_SUCCESS("Role delete successfully", 200);
+    ROLE_DELETE_SUCCESS("Role delete successfully", 200),
+    ROLE_UPDATE_SUCCESS("Role update successfully", 200);
     
     private final String message;
     private final int status;

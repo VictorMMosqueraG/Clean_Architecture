@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.DeleteRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
+import clean.architecture.cleanarchitecture.application.cases.roles.UpdateRolesCase;
 import clean.architecture.cleanarchitecture.domain.repository.roles.RolesRepository;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.RolesMapper;
 
@@ -69,5 +70,29 @@ public class RolesConfig {
         RolesRepository repository
     ){
         return new DeleteRolesCase(repository);
+    }
+
+    /**
+     * This method a creates a bean of type UpdateRolesCase.
+     * It takes a RolesRepository as a parameter and returns a new instance of UpdateRolesCase
+     * 
+     * @param repository The RolesRepository instance used to access book data.
+     * @param rolesMapper The RolesMapper instance used to map between domain object and data transfer object (DTOs)
+     * 
+     * The UpdateRolesCase is a use case that handle update of Roles.
+      * This method is annotated with @Bean, which indicates that it is a Spring bean definition.
+     * The Spring framework will manage the lifecycle of this bean and inject it into other components as needed.
+     * The UpdateRolesCase bean can be used in controllers or other components to handle book deletion logic.
+     * By using dependency injection, we can easily swap out the implementation of the BookRepository
+     * with a different implementation (e.g., a mock repository for testing) without changing the code in the UpdateRolesCase.
+     * This promotes loose coupling and makes the code more maintainable and testable. 
+     * 
+    */
+    @Bean
+    public UpdateRolesCase updateRolesCase(
+        RolesRepository repository,
+        RolesMapper rolesMapper
+    ){
+        return new UpdateRolesCase(repository, rolesMapper);
     }
 }

@@ -1,5 +1,9 @@
 package clean.architecture.cleanarchitecture.domain.model.roles;
 
+import java.util.Optional;
+
+import clean.architecture.cleanarchitecture.application.dto.roles.UpdateRolesDto;
+
 public class RolesModel {
 
     private int id;
@@ -27,5 +31,19 @@ public class RolesModel {
         this.description = description;
     }
 
+
+    /**
+     * Method to valid files if null or not null,
+     * if not null it will set values,
+     * if is null it don't set values
+     * 
+     * @param UpdateRolesDto dto
+     * 
+     * @return void
+    */
+    public void updateFields(UpdateRolesDto dto){
+        Optional.ofNullable(dto.getName()).ifPresent(this::setName);
+        Optional.ofNullable(dto.getDescription()).ifPresent(this::setDescription);
+    }
     
 }

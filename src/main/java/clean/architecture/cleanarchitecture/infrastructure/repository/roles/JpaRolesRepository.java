@@ -80,5 +80,26 @@ public class JpaRolesRepository implements RolesRepository {
         //Delete role by id
         repository.deleteById(id);
     }
+
+    
+    @Override
+    public RolesModel updateRoles(Integer id, RolesModel rolesModel) {
+
+        //Find roles by id
+        RolesModel foundRoles = this.getRolesById(id);
+
+        //set values
+        foundRoles.setName(rolesModel.getName());
+        foundRoles.setDescription(rolesModel.getDescription());
+
+        //Convert to model to entity
+        RolesEntity rolesEntity = rolesMapper.modelToEntity(foundRoles);
+
+        //calling method save from repository
+        repository.save(rolesEntity);
+
+        //Convert to entity to model and return
+        return rolesMapper.entityToModel(rolesEntity);
+    }
     
 }

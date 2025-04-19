@@ -3,6 +3,7 @@ package clean.architecture.cleanarchitecture.infrastructure.mapper;
 import org.springframework.stereotype.Component;
 
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
+import clean.architecture.cleanarchitecture.application.dto.roles.UpdateRolesDto;
 import clean.architecture.cleanarchitecture.domain.model.roles.RolesModel;
 import clean.architecture.cleanarchitecture.infrastructure.entity.RolesEntity;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.base.GenericMapper;
@@ -66,6 +67,25 @@ public class RolesMapper implements GenericMapper<RolesEntity, RolesModel, Creat
         RolesModel roles = new RolesModel();
 
         //Set the properties of the RolesModel object
+        roles.setName(dto.getName());
+        roles.setDescription(dto.getDescription());
+
+        return roles;
+    }
+
+    /**
+     * Method to convert a UpdateROlesDto object to a RolesModel object,
+     * it take the UpdateRolesDto and convert it a RolesModel.
+     * 
+     * @param UpdateRolesDto dto - Object to be convert
+     * 
+     * @return RolesModel - Convert object
+    */
+    public RolesModel DtoToUpdateToModel(UpdateRolesDto dto){
+        //Create a new RolesModel object
+        RolesModel roles = new RolesModel();
+
+        //set the properties
         roles.setName(dto.getName());
         roles.setDescription(dto.getDescription());
 

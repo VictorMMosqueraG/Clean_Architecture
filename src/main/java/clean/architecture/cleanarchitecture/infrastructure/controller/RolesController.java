@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.DeleteRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
+import clean.architecture.cleanarchitecture.application.cases.roles.UpdateRolesCase;
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
+import clean.architecture.cleanarchitecture.application.dto.roles.UpdateRolesDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
 import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponseData;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 @RestController
@@ -36,15 +40,18 @@ public class RolesController {
     private final CreateRoleCase createRoleCase;
     private final FindByIdRolesCase findByIDRoleCase;
     private final DeleteRolesCase deleteRoleCase;
+    private final UpdateRolesCase updateRolesCase;
 
     public RolesController(
         CreateRoleCase createRoleCase, 
         FindByIdRolesCase findByIDRoleCase,
-        DeleteRolesCase deleteRoleCase
+        DeleteRolesCase deleteRoleCase,
+        UpdateRolesCase updateRolesCase
     ) {
         this.createRoleCase = createRoleCase;
         this.findByIDRoleCase = findByIDRoleCase;
         this.deleteRoleCase = deleteRoleCase;
+        this.updateRolesCase = updateRolesCase;
     }
 
     /**
@@ -227,6 +234,83 @@ public class RolesController {
             .body(new ApiResponseData(
                 ApiResponseStatus.ROLE_DELETE_SUCCESS.getMessage(),
                 ApiResponseStatus.ROLE_DELETE_SUCCESS.getStatus())
+            );
+    }
+
+
+    /**
+     * Method to update a roles entity,
+     * it receives a UpdateROlesDto object, in the request body,
+     * and it receives an id in the path.
+     * IT calling the updateROlesCase from use case.
+     * 
+     * @param UpdateRolesDto dto
+     * @param Integer id
+     * 
+     * @return ResponseEntity with a success message and http status code
+    */
+    @Operation(
+        summary = "Update a new Role",
+        description = "Update a new Role."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "201",
+            description = "Role update successfully",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"message\": \"Role update successfully\", \"status\": 200}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "409",
+            description = "Duplicate resource found. It may already exist.",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 409, \"message\": \"Duplicate resource found. It may already exist.\", \"error\": \"Key (name)=(Role Name) already exists.\", \"path\": \"/role/{id}\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Validation error occurred. Please check your input.",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 400, \"message\": \"Validation error occurred. Please check your input.\", \"error\": \"name: Name is required, it cannot be blank or null\", \"path\": \"/role/{id}\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 500, \"message\": \"An unexpected error occurred. Please try again later.\", \"error\": \"An unexpected error occurred. Please try again later.\", \"path\": \"/role\"}")
+                )
+            }
+        )
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateRoles(
+        @PathVariable Integer id,
+        @Valid
+        @RequestBody UpdateRolesDto dto
+    ) {
+
+        //Calling updateRolesCase from use case
+        updateRolesCase.updateRolesCase(id, dto);
+
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(new ApiResponseData(
+                ApiResponseStatus.ROLE_UPDATE_SUCCESS.getMessage(), 
+                ApiResponseStatus.ROLE_UPDATE_SUCCESS.getStatus()
+                )
             );
     }
     
