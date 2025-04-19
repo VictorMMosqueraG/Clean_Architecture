@@ -1,5 +1,9 @@
 package clean.architecture.cleanarchitecture.domain.model.book;
 
+import java.util.Optional;
+
+import clean.architecture.cleanarchitecture.application.dto.book.UpdateBookDto;
+
 public class BookModel {
     
     private int id;
@@ -29,5 +33,20 @@ public class BookModel {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    
+    /**
+     * Method to valid files if null or not null.
+     * if not null it will update file,
+     * if is null it don't update file
+     * 
+     * @param UpdateBookDto dto 
+     * 
+     * @return void
+    */
+    public void updateFields(UpdateBookDto dto) {
+        Optional.ofNullable(dto.getTittle()).ifPresent(this::setTittle);
+        Optional.ofNullable(dto.getDescription()).ifPresent(this::setDescription);
     }
 }

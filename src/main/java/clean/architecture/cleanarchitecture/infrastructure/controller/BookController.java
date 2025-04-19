@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.DeleteBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.FindByIDBookCase;
+import clean.architecture.cleanarchitecture.application.cases.book.UpdateBookCase;
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
+import clean.architecture.cleanarchitecture.application.dto.book.UpdateBookDto;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
 import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponseData;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 
 
@@ -37,16 +41,19 @@ public class BookController {
     private final CreateBookCase createBookCase;
     private final FindByIDBookCase findByIDBookCase;
     private final DeleteBookCase deleteBookCase;
+    private final UpdateBookCase updateBookCase;
 
 
     public BookController(
         CreateBookCase createBookCase,
         FindByIDBookCase findByIDBookCase,
-        DeleteBookCase deleteBookCase
+        DeleteBookCase deleteBookCase,
+        UpdateBookCase updateBookCase
     ) {
         this.createBookCase = createBookCase;
         this.findByIDBookCase = findByIDBookCase;
         this.deleteBookCase = deleteBookCase;
+        this.updateBookCase = updateBookCase;
     }
 
     /**
@@ -231,6 +238,72 @@ public class BookController {
                 ApiResponseStatus.BOOK_DELETE_SUCCESS.getMessage(), 
                 ApiResponseStatus.BOOK_DELETE_SUCCESS.getStatus())
             );
+    }
+
+
+    /**
+     * Method to update a book entity,
+     * it receives a UpdateBookDto object in the request body,
+     * and it receives an id in the path.
+     * It calling the updateBookCase method from use case
+     * 
+     * @param Integer id
+     * @param UpdateBookDto updateBookDto
+     * 
+     * @return ResponseEntity with a success message and Http status code
+    */
+    @Operation(
+        summary = "Update a new Book",
+        description = "Update a new Book."
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Update created successfully",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"message\": \"Book update successfully\", \"status\": 200}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "409",
+            description = "Duplicate resource found. It may already exist.",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 409, \"message\": \"Duplicate resource found. It may already exist.\", \"error\": \"Key (tittle)=(Book Tittle update) already exists.\", \"path\": \"/book/{id}\"}")
+                )
+            }
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = {
+                @Content(
+                    mediaType = "application/json",
+                    schema = @Schema(example = "{\"status\": 500, \"message\": \"An unexpected error occurred. Please try again later.\", \"error\": \"An unexpected error occurred. Please try again later.\", \"path\": \"/book\"}")
+                )
+            }
+        )
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateBook(
+        @PathVariable Integer id, 
+        @Valid
+        @RequestBody UpdateBookDto dto
+    ) {
+        //call the use case to update a book
+        updateBookCase.updateBookCase(id, dto);
+        
+       return ResponseEntity
+       .status(HttpStatus.OK)
+       .body(new ApiResponseData(
+            ApiResponseStatus.BOOK_UPDATE_SUCCESS.getMessage(), 
+            ApiResponseStatus.BOOK_UPDATE_SUCCESS.getStatus())
+        );
+            
     }
     
     

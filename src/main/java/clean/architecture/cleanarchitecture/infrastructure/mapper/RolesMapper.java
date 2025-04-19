@@ -61,7 +61,7 @@ public class RolesMapper implements GenericMapper<RolesEntity, RolesModel, Creat
      * @return RolesModel - Convert object
     */
     @Override
-    public RolesModel dtoToModel(CreateRolesDto dto) {
+    public RolesModel dtoCreateToModel(CreateRolesDto dto) {
         //Create a new RolesModel object
         RolesModel roles = new RolesModel();
 

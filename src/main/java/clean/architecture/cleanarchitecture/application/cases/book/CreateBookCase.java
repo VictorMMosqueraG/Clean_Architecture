@@ -26,7 +26,7 @@ public class CreateBookCase {
     public void createBook(CreateBookDto dto){
 
         //Create to bookModel object
-        BookModel bookModel = bookMapper.dtoToModel(dto);
+        BookModel bookModel = bookMapper.dtoCreateToModel(dto);
 
         //Save the bookModel object
         repository.createBook(bookModel);

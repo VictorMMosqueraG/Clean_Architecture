@@ -8,6 +8,7 @@ public interface BookRepository {
     
     public void createBook(BookModel book);
     public Optional<BookModel> getBook();
-    public BookModel getBookById(Integer id);
+    public BookModel getBookByIdOrFail(Integer id);
     public void deleteBook(Integer id);
+    public BookModel updateBook(Integer id, BookModel book);
 }

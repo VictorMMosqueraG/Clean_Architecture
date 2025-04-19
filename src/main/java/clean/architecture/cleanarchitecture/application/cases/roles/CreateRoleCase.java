@@ -31,7 +31,7 @@ public class CreateRoleCase {
     */
     public void createRoles(CreateRolesDto dto){
         // Convert Dto to model
-        RolesModel roleModel = rolesMapper.dtoToModel(dto);
+        RolesModel roleModel = rolesMapper.dtoCreateToModel(dto);
 
         //Save the roles
         repository.createRole(roleModel);    

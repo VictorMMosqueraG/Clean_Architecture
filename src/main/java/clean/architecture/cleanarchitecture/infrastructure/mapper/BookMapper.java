@@ -3,6 +3,7 @@ package clean.architecture.cleanarchitecture.infrastructure.mapper;
 import org.springframework.stereotype.Component;
 
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
+import clean.architecture.cleanarchitecture.application.dto.book.UpdateBookDto;
 import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
 import clean.architecture.cleanarchitecture.infrastructure.entity.BookEntity;
 import clean.architecture.cleanarchitecture.infrastructure.mapper.base.GenericMapper;
@@ -61,7 +62,26 @@ public class BookMapper implements GenericMapper<BookEntity, BookModel, CreateBo
      * 
      * @return BookModel - Convert object
     */
-    public BookModel dtoToModel(CreateBookDto dto){
+    public BookModel dtoCreateToModel(CreateBookDto dto){
+        //Create a new BookModel object
+        BookModel book = new BookModel();
+
+        //Set the properties of the BookModel object
+        book.setTittle(dto.getTittle());
+        book.setDescription(dto.getDescription());
+
+        return book;
+    }
+
+    /**
+     * Method to convert a UpdateBookDto object to a BookModel object,
+     * take the UpdateBookDto object and convert it to a BookModel object
+     * 
+     * @param UpdateBookDto dto - Object to be convert
+     * 
+     * @return BookModel - Convert object
+    */
+    public BookModel dtoUpdateToModel(UpdateBookDto dto){
         //Create a new BookModel object
         BookModel book = new BookModel();
 

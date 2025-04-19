@@ -7,5 +7,5 @@ public interface GenericMapper<E, M, D> {
     // D => DTO
     E modelToEntity(M model);
     M entityToModel(E entity);
-    M dtoToModel(D dto);
+    M dtoCreateToModel(D dto);
 }
