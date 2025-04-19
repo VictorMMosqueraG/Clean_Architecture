@@ -1,14 +1,9 @@
 package clean.architecture.cleanarchitecture.domain.repository.book;
 
-import java.util.Optional;
 
 import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
+import clean.architecture.cleanarchitecture.domain.repository.base.BaseRepository;
 
-public interface BookRepository {
+public interface BookRepository extends BaseRepository<BookModel, Integer> {
     
-    public void createBook(BookModel book);
-    public Optional<BookModel> getBook();
-    public BookModel getBookByIdOrFail(Integer id);
-    public void deleteBook(Integer id);
-    public BookModel updateBook(Integer id, BookModel book);
 }

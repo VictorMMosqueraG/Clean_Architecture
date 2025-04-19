@@ -12,7 +12,7 @@ public class DeleteBookCase {
 
 
     public void deleteBookCase(Integer id){
-        bookRepository.deleteBook(id);//Call method from repository
+        bookRepository.delete(id);//Call method from repository
     }
     
 }

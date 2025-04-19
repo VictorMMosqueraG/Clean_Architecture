@@ -34,6 +34,6 @@ public class CreateRoleCase {
         RolesModel roleModel = rolesMapper.dtoCreateToModel(dto);
 
         //Save the roles
-        repository.createRole(roleModel);    
+        repository.save(roleModel);    
     }
 }

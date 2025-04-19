@@ -1,11 +1,8 @@
 package clean.architecture.cleanarchitecture.domain.repository.roles;
 
 import clean.architecture.cleanarchitecture.domain.model.roles.RolesModel;
+import clean.architecture.cleanarchitecture.domain.repository.base.BaseRepository;
 
-public interface RolesRepository {
+public interface RolesRepository extends BaseRepository<RolesModel, Integer>{
     
-    public void createRole(RolesModel role);
-    public RolesModel getRolesById(Integer id);
-    public void deleteRoles(Integer id);
-    public RolesModel updateRoles(Integer id, RolesModel rolesModel);
 }

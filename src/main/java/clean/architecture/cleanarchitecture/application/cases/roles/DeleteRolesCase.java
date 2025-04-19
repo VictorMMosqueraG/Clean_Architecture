@@ -20,6 +20,6 @@ public class DeleteRolesCase {
      */
     public void deleteRoles(Integer id){
         //calling the repository method to delete the role by id
-        rolesRepository.deleteRoles(id);
+        rolesRepository.delete(id);
     }
 }

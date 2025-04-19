@@ -23,7 +23,7 @@ public class FindByIdRolesCase {
     */
     public RolesModel findById(Integer id) {
         // Find the role by ID and return it
-        return repository.getRolesById(id);
+        return repository.findByIdOrFail(id);
     }
 
 

@@ -1,7 +1,6 @@
 package clean.architecture.cleanarchitecture.infrastructure.repository.book;
 
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -31,27 +30,13 @@ public class JpaBookRepository implements BookRepository {
      * 
      */
     @Override
-    public void createBook(BookModel book) {
+    public void save(BookModel book) {
         // Convert BookModel to Entity
         BookEntity bookEntity = bookMapper.modelToEntity(book);
 
         //save the book
         repository.save(bookEntity);
     }
-
-    /**
-     * This method is used to get a book from the database.
-     * 
-     * @return Optional<BookModel> book
-    */
-    @Override
-    public Optional<BookModel> getBook() {
-        return repository.findAll()
-            .stream()
-            .findFirst()
-            .map(bookMapper::entityToModel);
-    }
-
 
     /**
      * This method is used to get book by id from the database,
@@ -64,7 +49,7 @@ public class JpaBookRepository implements BookRepository {
      * @return BookModel book
      */ 
     @Override
-     public BookModel getBookByIdOrFail(Integer id) {
+     public BookModel findByIdOrFail(Integer id) {
         // Find the book by ID, if not found, throw an exception
         BookEntity bookEntity = repository.findById(id)
             .orElseThrow(() -> new NoSuchElementException("Book not found")); 
@@ -84,9 +69,9 @@ public class JpaBookRepository implements BookRepository {
      * @return void
     */
     @Override
-    public void deleteBook(Integer id) {
+    public void delete(Integer id) {
         //Valid if the book exists
-        this.getBookByIdOrFail(id);
+        this.findByIdOrFail(id);
 
         //Delete the book
         repository.deleteById(id);
@@ -106,10 +91,10 @@ public class JpaBookRepository implements BookRepository {
      * 
     */
     @Override
-    public BookModel updateBook(Integer id, BookModel book) {
+    public BookModel update(Integer id, BookModel book) {
 
         //Find the book by id
-        BookModel foundEntity = this.getBookByIdOrFail(id);
+        BookModel foundEntity = this.findByIdOrFail(id);
 
         //Set values
         foundEntity.setTittle(book.getTittle());

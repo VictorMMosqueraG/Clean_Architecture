@@ -44,6 +44,6 @@ public class UpdateBookCase {
         bookModel.updateFields(updateBookDto);
 
         //calling the method to update from repository and return the result
-        return repository.updateBook(id, bookModel);
+        return repository.update(id, bookModel);
     }
 }

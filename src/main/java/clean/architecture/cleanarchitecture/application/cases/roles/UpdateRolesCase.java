@@ -40,6 +40,6 @@ public class UpdateRolesCase {
         rolesModel.updateFields(updateRolesDto);
 
         //calling the method to update from repository and return the result
-        return repository.updateRoles(id, rolesModel);
+        return repository.update(id, rolesModel);
     }
 }

@@ -23,6 +23,6 @@ public class FindByIDBookCase {
      */ 
     public BookModel findById(Integer id) {
         // Find the book by ID and return it
-        return repository.getBookByIdOrFail(id);        
+        return repository.findByIdOrFail(id);        
     }
 }

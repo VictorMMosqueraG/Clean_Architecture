@@ -33,7 +33,7 @@ public class JpaRolesRepository implements RolesRepository {
      * @return void
     */
     @Override
-    public void createRole(RolesModel role) {
+    public void save(RolesModel role) {
         //Convert RolesModel to RolesEntity
         RolesEntity rolesEntity = rolesMapper.modelToEntity(role);
 
@@ -53,7 +53,7 @@ public class JpaRolesRepository implements RolesRepository {
      * @return RolesModel 
     */
     @Override
-    public RolesModel getRolesById(Integer id) {
+    public RolesModel findByIdOrFail(Integer id) {
         //Get the roles by id
         RolesEntity rolesEntity = repository.findById(id)
         .orElseThrow(() -> new NoSuchElementException("Role not found"));
@@ -73,9 +73,9 @@ public class JpaRolesRepository implements RolesRepository {
      * @return void
     */
     @Override
-    public void deleteRoles(Integer id) {
+    public void delete(Integer id) {
         //Valid if the roles exist
-        this.getRolesById(id);
+        this.findByIdOrFail(id);
 
         //Delete role by id
         repository.deleteById(id);
@@ -83,10 +83,10 @@ public class JpaRolesRepository implements RolesRepository {
 
     
     @Override
-    public RolesModel updateRoles(Integer id, RolesModel rolesModel) {
+    public RolesModel update(Integer id, RolesModel rolesModel) {
 
         //Find roles by id
-        RolesModel foundRoles = this.getRolesById(id);
+        RolesModel foundRoles = this.findByIdOrFail(id);
 
         //set values
         foundRoles.setName(rolesModel.getName());
