@@ -8,6 +8,7 @@ import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRole
 import clean.architecture.cleanarchitecture.application.cases.roles.UpdateRolesCase;
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
 import clean.architecture.cleanarchitecture.application.dto.roles.UpdateRolesDto;
+import clean.architecture.cleanarchitecture.infrastructure.controller.bases.BaseController;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
 import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponseData;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,7 +35,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("role")
 @Tag(name = "Role")
 @Validated
-public class RolesController {
+public class RolesController implements BaseController<CreateRolesDto, Integer, UpdateRolesDto>{
 
     
     private final CreateRoleCase createRoleCase;
@@ -111,7 +112,7 @@ public class RolesController {
         )
     })
     @PostMapping()
-    public ResponseEntity<?> createRoles(
+    public ResponseEntity<?> create(
         @Valid
         @RequestBody CreateRolesDto dto
     ) {
@@ -224,7 +225,7 @@ public class RolesController {
         )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteRoles(@PathVariable Integer id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         // Call the use case to delete a role
         deleteRoleCase.deleteRoles(id);
 
@@ -296,7 +297,7 @@ public class RolesController {
         )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateRoles(
+    public ResponseEntity<?> update(
         @PathVariable Integer id,
         @Valid
         @RequestBody UpdateRolesDto dto

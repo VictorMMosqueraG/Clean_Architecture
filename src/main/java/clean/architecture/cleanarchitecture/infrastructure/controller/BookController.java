@@ -9,6 +9,7 @@ import clean.architecture.cleanarchitecture.application.cases.book.FindByIDBookC
 import clean.architecture.cleanarchitecture.application.cases.book.UpdateBookCase;
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
 import clean.architecture.cleanarchitecture.application.dto.book.UpdateBookDto;
+import clean.architecture.cleanarchitecture.infrastructure.controller.bases.BaseController;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
 import clean.architecture.cleanarchitecture.infrastructure.response.ApiResponseData;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -36,7 +37,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("book")
 @Tag(name = "Book")
 @Validated
-public class BookController {
+public class BookController implements BaseController<CreateBookDto, Integer, UpdateBookDto> {
     
     private final CreateBookCase createBookCase;
     private final FindByIDBookCase findByIDBookCase;
@@ -62,7 +63,7 @@ public class BookController {
      * which contains the necessary information to create a new book.
      * It calls the createBookCase to handle the business logic of creating a book.
      * 
-     * @param dto CreateBookDto object containing the book information
+     * @param createDto CreateBookDto object containing the book information
      * 
      * @return ResponseEntity with a success message and HTTP status code
     */
@@ -113,12 +114,12 @@ public class BookController {
         )
     })
     @PostMapping()
-    public ResponseEntity<?> createBook(
+    public ResponseEntity<?> create(
         @Valid
-        @RequestBody CreateBookDto dto
+        @RequestBody CreateBookDto createDto
     ) {
         // Call the use case to create a book
-        createBookCase.createBook(dto);
+        createBookCase.createBook(createDto);
         
         // Return a response indicating success
         return ResponseEntity
@@ -176,7 +177,7 @@ public class BookController {
         )
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findByIdBook(@PathVariable Integer id) {
+    public ResponseEntity<?> findById(@PathVariable Integer id) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(findByIDBookCase.findById(id));//Call the method FindByID
@@ -227,7 +228,7 @@ public class BookController {
         )
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteBook(@PathVariable Integer id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         // Call the use case to delete a book
         deleteBookCase.deleteBookCase(id);
         
@@ -289,7 +290,7 @@ public class BookController {
         )
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBook(
+    public ResponseEntity<?> update(
         @PathVariable Integer id, 
         @Valid
         @RequestBody UpdateBookDto dto
@@ -303,8 +304,7 @@ public class BookController {
             ApiResponseStatus.BOOK_UPDATE_SUCCESS.getMessage(), 
             ApiResponseStatus.BOOK_UPDATE_SUCCESS.getStatus())
         );
-            
     }
-    
+
     
 }
