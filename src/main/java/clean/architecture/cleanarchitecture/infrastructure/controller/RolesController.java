@@ -314,6 +314,12 @@ public class RolesController implements BaseController<CreateRolesDto, Integer, 
                 )
             );
     }
+
+    @Override
+    public ResponseEntity<?> findAll() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    }
     
 
 }

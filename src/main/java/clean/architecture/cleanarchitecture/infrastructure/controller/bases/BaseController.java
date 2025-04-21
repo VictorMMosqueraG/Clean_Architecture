@@ -1,6 +1,10 @@
 package clean.architecture.cleanarchitecture.infrastructure.controller.bases;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 
 public interface BaseController <C, ID, U> {
     
@@ -8,8 +12,23 @@ public interface BaseController <C, ID, U> {
     //ID => Id
     //U => UpdateDto
 
-    ResponseEntity<?> create(C createDto);
-    ResponseEntity<?> findById(ID id);
-    ResponseEntity<?> delete(ID id);
-    ResponseEntity<?> update(ID id, U updateDto);
+    ResponseEntity<?> create(
+        @Valid 
+        @RequestBody 
+        C createDto
+    );
+    ResponseEntity<?> findById(
+        @PathVariable 
+        ID id
+    );
+    ResponseEntity<?> delete(
+        @PathVariable 
+        ID id
+    );
+    ResponseEntity<?> update(
+        @PathVariable ID id,
+        @Valid 
+        @RequestBody U updateDto
+    );
+    ResponseEntity<?> findAll();
 }

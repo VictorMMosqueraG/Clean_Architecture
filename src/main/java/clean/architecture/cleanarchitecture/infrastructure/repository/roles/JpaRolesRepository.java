@@ -1,5 +1,6 @@
 package clean.architecture.cleanarchitecture.infrastructure.repository.roles;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Repository;
@@ -100,6 +101,19 @@ public class JpaRolesRepository implements RolesRepository {
 
         //Convert to entity to model and return
         return rolesMapper.entityToModel(rolesEntity);
+    }
+
+
+    /**
+     * Method to find all roles,
+     * it convert to response RolesEntity to RoleModel
+    */
+    @Override
+    public List<RolesModel> findAll() {
+        return repository.findAll()
+            .stream()
+            .map(rolesMapper::entityToModel)
+            .toList();
     }
     
 }

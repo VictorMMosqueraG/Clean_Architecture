@@ -1,5 +1,6 @@
 package clean.architecture.cleanarchitecture.infrastructure.repository.book;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.springframework.stereotype.Repository;
@@ -109,6 +110,20 @@ public class JpaBookRepository implements BookRepository {
 
         //convert entity to model and it will returns
         return bookMapper.entityToModel(bookEntity);
+    }
+
+    /**
+     * Method to find all book,
+     * it convert to BookEntity response to BookModel Response.
+     * 
+     * @return List<BookModel>
+    */
+    @Override
+    public List<BookModel> findAll() {
+        return repository.findAll()
+            .stream()
+            .map(bookMapper::entityToModel)
+            .toList();
     }
     
 }

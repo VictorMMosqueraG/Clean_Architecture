@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.DeleteBookCase;
+import clean.architecture.cleanarchitecture.application.cases.book.FindAllBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.FindByIDBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.UpdateBookCase;
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
@@ -33,6 +34,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 
+
 @RestController
 @RequestMapping("book")
 @Tag(name = "Book")
@@ -43,18 +45,21 @@ public class BookController implements BaseController<CreateBookDto, Integer, Up
     private final FindByIDBookCase findByIDBookCase;
     private final DeleteBookCase deleteBookCase;
     private final UpdateBookCase updateBookCase;
+    private final FindAllBookCase findAllBookCase;
 
 
     public BookController(
         CreateBookCase createBookCase,
         FindByIDBookCase findByIDBookCase,
         DeleteBookCase deleteBookCase,
-        UpdateBookCase updateBookCase
+        UpdateBookCase updateBookCase,
+        FindAllBookCase findAllBookCase
     ) {
         this.createBookCase = createBookCase;
         this.findByIDBookCase = findByIDBookCase;
         this.deleteBookCase = deleteBookCase;
         this.updateBookCase = updateBookCase;
+        this.findAllBookCase = findAllBookCase;
     }
 
     /**
@@ -305,6 +310,15 @@ public class BookController implements BaseController<CreateBookDto, Integer, Up
             ApiResponseStatus.BOOK_UPDATE_SUCCESS.getStatus())
         );
     }
+
+    //COMEBACK:Missing documentation
+    @GetMapping()
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity 
+        .status(HttpStatus.OK)
+        .body(findAllBookCase.findAll());
+    }
+    
 
     
 }

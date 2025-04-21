@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import clean.architecture.cleanarchitecture.application.cases.book.CreateBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.DeleteBookCase;
+import clean.architecture.cleanarchitecture.application.cases.book.FindAllBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.FindByIDBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.UpdateBookCase;
 import clean.architecture.cleanarchitecture.domain.repository.book.BookRepository;
@@ -104,4 +105,13 @@ public class BookConfig {
     ){
         return new UpdateBookCase(repository, bookMapper);
     }
+
+    //COMEBACK: Missing documentation
+    @Bean
+    public FindAllBookCase findAllBookCase(
+        BookRepository repository
+    ){
+        return new FindAllBookCase(repository);
+    }
+    
 }
