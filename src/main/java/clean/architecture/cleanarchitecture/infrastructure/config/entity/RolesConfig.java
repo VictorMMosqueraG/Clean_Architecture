@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.DeleteRolesCase;
+import clean.architecture.cleanarchitecture.application.cases.roles.FindAllRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.UpdateRolesCase;
 import clean.architecture.cleanarchitecture.domain.repository.roles.RolesRepository;
@@ -94,5 +95,12 @@ public class RolesConfig {
         RolesMapper rolesMapper
     ){
         return new UpdateRolesCase(repository, rolesMapper);
+    }
+
+    //COMEBACK: Missing documentation
+    @Bean FindAllRolesCase findAllRolesCase(
+        RolesRepository repository
+    ){
+        return new FindAllRolesCase(repository);
     }
 }

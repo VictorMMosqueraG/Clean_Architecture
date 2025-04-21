@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import clean.architecture.cleanarchitecture.application.cases.roles.CreateRoleCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.DeleteRolesCase;
+import clean.architecture.cleanarchitecture.application.cases.roles.FindAllRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.UpdateRolesCase;
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 
+
 @RestController
 @RequestMapping("role")
 @Tag(name = "Role")
@@ -42,17 +44,20 @@ public class RolesController implements BaseController<CreateRolesDto, Integer, 
     private final FindByIdRolesCase findByIDRoleCase;
     private final DeleteRolesCase deleteRoleCase;
     private final UpdateRolesCase updateRolesCase;
+    private final FindAllRolesCase findAllRolesCase;
 
     public RolesController(
         CreateRoleCase createRoleCase, 
         FindByIdRolesCase findByIDRoleCase,
         DeleteRolesCase deleteRoleCase,
-        UpdateRolesCase updateRolesCase
+        UpdateRolesCase updateRolesCase,
+        FindAllRolesCase findAllRolesCase
     ) {
         this.createRoleCase = createRoleCase;
         this.findByIDRoleCase = findByIDRoleCase;
         this.deleteRoleCase = deleteRoleCase;
         this.updateRolesCase = updateRolesCase;
+        this.findAllRolesCase = findAllRolesCase;
     }
 
     /**
@@ -315,10 +320,13 @@ public class RolesController implements BaseController<CreateRolesDto, Integer, 
             );
     }
 
+    // COMEBACK: Missing documentation
+    @GetMapping()    
     @Override
     public ResponseEntity<?> findAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(findAllRolesCase.findAll());
     }
     
 
