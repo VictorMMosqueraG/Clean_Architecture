@@ -108,6 +108,29 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiErrorResponse);
     }
 
+    /**
+     * Method to handle IllegalArgumentException (e.g., bad pagination usage),
+     * and return a custom error response (Bad Request).
+     *
+     * @param ex The IllegalArgumentException that was thrown.
+     * @param request The HttpServletRequest object.
+     */
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiErrorResponse> handleIllegalArgumentException(
+        IllegalArgumentException ex,
+        HttpServletRequest request
+    ) {
+        // Create ApiErrorResponse object
+        ApiErrorResponse apiErrorResponse = new ApiErrorResponse(
+            ApiErrorMessage.INVALID_FILTER_COMBINATION.getStatus(), 
+            ApiErrorMessage.INVALID_FILTER_COMBINATION.getMessage(),
+            ex.getMessage(),
+            request.getRequestURI()
+        );
+    
+        // Return ResponseEntity with ApiErrorResponse
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(apiErrorResponse);
+    }
 
     /*
      * Method to handle all other exceptions 

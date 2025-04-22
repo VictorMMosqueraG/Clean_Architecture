@@ -20,6 +20,11 @@ public enum ApiErrorMessage {
     RESOURCE_NOT_FOUND(
         "Resource not found. Please check the resource ID.",
         404
+    ),
+
+    INVALID_FILTER_COMBINATION(
+        "Invalid Filter Combination.",
+        400
     );
 
 

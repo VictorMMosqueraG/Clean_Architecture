@@ -106,7 +106,19 @@ public class BookConfig {
         return new UpdateBookCase(repository, bookMapper);
     }
 
-    //COMEBACK: Missing documentation
+    /**
+     * This method creates a bean of type FindAllBookCase.
+     * It takes a BookRepository as a parameter and returns a new instance of FindAllBookCase.
+     * 
+     * @param repository The BookRepository instance used to access book data.
+     * 
+     * The FindAllBookCase is a use case that handles the retrieval of all books,
+     * potentially with pagination, filtering, or sorting options (depending on how it's implemented).
+     * This method is annotated with @Bean, indicating that it is a Spring bean definition.
+     * The Spring framework will manage the lifecycle of this bean and inject it into other components as needed.
+     * The FindAllBookCase bean can be used in controllers or services to handle logic for retrieving book collections.
+     * By leveraging dependency injection, we ensure loose coupling and make the application easier to test and maintain.
+    */
     @Bean
     public FindAllBookCase findAllBookCase(
         BookRepository repository

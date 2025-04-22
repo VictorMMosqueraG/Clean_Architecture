@@ -9,6 +9,7 @@ import clean.architecture.cleanarchitecture.application.cases.book.FindAllBookCa
 import clean.architecture.cleanarchitecture.application.cases.book.FindByIDBookCase;
 import clean.architecture.cleanarchitecture.application.cases.book.UpdateBookCase;
 import clean.architecture.cleanarchitecture.application.dto.book.CreateBookDto;
+import clean.architecture.cleanarchitecture.application.dto.book.PaginationBookDto;
 import clean.architecture.cleanarchitecture.application.dto.book.UpdateBookDto;
 import clean.architecture.cleanarchitecture.infrastructure.controller.bases.BaseController;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
@@ -21,6 +22,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -39,7 +41,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("book")
 @Tag(name = "Book")
 @Validated
-public class BookController implements BaseController<CreateBookDto, Integer, UpdateBookDto> {
+public class BookController implements BaseController<CreateBookDto, Integer, UpdateBookDto, PaginationBookDto> {
     
     private final CreateBookCase createBookCase;
     private final FindByIDBookCase findByIDBookCase;
@@ -311,12 +313,82 @@ public class BookController implements BaseController<CreateBookDto, Integer, Up
         );
     }
 
-    //COMEBACK:Missing documentation
+    /**
+     * Method to retrieve a paginated list of books,
+     * optionally filtered by parameters defined in the PaginationBookDto.
+     * 
+     * @param paginationBookDto object containing pagination and filter parameters
+     * 
+     * @return ResponseEntity with a list of books and pagination metadata
+     */
+    @Operation(
+        summary = "Find all books with optional filters",
+        description = "Retrieve a list of books with optional filters and pagination"
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Books retrieved successfully",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(example = 
+                    "[{" +
+                    "    \"Context\": \"Book\"," +
+                    "    \"TotalData\": 2," +
+                    "    \"Data\": [" +
+                    "        {" +
+                    "            \"id\": 1," +
+                    "            \"title\": \"tittle1\"," +
+                    "            \"description\": \"testingDescription\"" +
+                    "        }," +
+                    "        {" +
+                    "            \"id\": 2," +
+                    "            \"title\": \"tittle2\"," +
+                    "            \"description\": \"testingDescription\"" +
+                    "        }" +
+                    "    ]" +
+                    "}]"
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid filter combination",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(example = 
+                    "{" +
+                    "    \"status\": 400," +
+                    "    \"message\": \"Invalid Filter combination.\"," +
+                    "    \"error\": \"Flatten mode can't be combined with other filters.\"," +
+                    "    \"path\": \"/book\"" +
+                    "}"
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(example = 
+                    "{" +
+                    "    \"status\": 500," +
+                    "    \"message\": \"An unexpected error occurred. Please try again later.\"," +
+                    "    \"error\": \"An unexpected error occurred. Please try again later.\"," +
+                    "    \"path\": \"/book\"" +
+                    "}"
+                )
+            )
+        )
+    })
     @GetMapping()
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAll(
+        @ParameterObject @Valid PaginationBookDto paginationBookDto
+    ) {
         return ResponseEntity 
         .status(HttpStatus.OK)
-        .body(findAllBookCase.findAll());
+        .body(findAllBookCase.findAll(paginationBookDto));
     }
     
 

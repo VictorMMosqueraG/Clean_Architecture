@@ -8,6 +8,7 @@ import clean.architecture.cleanarchitecture.application.cases.roles.FindAllRoles
 import clean.architecture.cleanarchitecture.application.cases.roles.FindByIdRolesCase;
 import clean.architecture.cleanarchitecture.application.cases.roles.UpdateRolesCase;
 import clean.architecture.cleanarchitecture.application.dto.roles.CreateRolesDto;
+import clean.architecture.cleanarchitecture.application.dto.roles.PaginationRolesDto;
 import clean.architecture.cleanarchitecture.application.dto.roles.UpdateRolesDto;
 import clean.architecture.cleanarchitecture.infrastructure.controller.bases.BaseController;
 import clean.architecture.cleanarchitecture.infrastructure.enums.ApiResponseStatus;
@@ -37,7 +38,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("role")
 @Tag(name = "Role")
 @Validated
-public class RolesController implements BaseController<CreateRolesDto, Integer, UpdateRolesDto>{
+public class RolesController implements BaseController<CreateRolesDto, Integer, UpdateRolesDto, PaginationRolesDto>{
 
     
     private final CreateRoleCase createRoleCase;
@@ -323,7 +324,9 @@ public class RolesController implements BaseController<CreateRolesDto, Integer, 
     // COMEBACK: Missing documentation
     @GetMapping()    
     @Override
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAll(
+        PaginationRolesDto paginationRolesDto
+    ) {
         return ResponseEntity
             .status(HttpStatus.OK)
             .body(findAllRolesCase.findAll());
