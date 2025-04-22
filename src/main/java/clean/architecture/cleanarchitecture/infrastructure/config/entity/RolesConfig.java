@@ -97,7 +97,20 @@ public class RolesConfig {
         return new UpdateRolesCase(repository, rolesMapper);
     }
 
-    //COMEBACK: Missing documentation
+    /**
+     * Creates a bean of type FindAllRolesCase.
+     * This method is responsible for creating an instance of FindAllRolesCase, 
+     * which handles the logic of retrieving all roles from the system.
+     * 
+     * @param repository The RolesRepository instance used to access role data.
+     * 
+     * @return A new instance of FindAllRolesCase that can be used to retrieve all roles.
+     * 
+     * The FindAllRolesCase bean can be used in controllers or other components to handle role retrieval logic. 
+     * By using dependency injection, we can easily swap out the implementation of the RolesRepository 
+     * with a different implementation (e.g., a mock repository for testing) without changing the code in the FindAllRolesCase.
+     * This promotes loose coupling and makes the code more maintainable and testable.
+    */
     @Bean FindAllRolesCase findAllRolesCase(
         RolesRepository repository
     ){

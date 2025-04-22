@@ -21,6 +21,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -321,15 +322,85 @@ public class RolesController implements BaseController<CreateRolesDto, Integer, 
             );
     }
 
-    // COMEBACK: Missing documentation
+    /**
+     * Method to retrieve a paginated list of roles,
+     * optionally filtered by parameters defined in the PaginationRolesDto.
+     * 
+     * @param paginationRolesDto object containing pagination and filter parameters
+     * 
+     * @return ResponseEntity with a list of roles and pagination metadata
+    */
+    @Operation(
+        summary = "Find all roles with optional filters",
+        description = "Retrieve a list of roles with optional filters and pagination"
+    )
+    @ApiResponses({
+        @ApiResponse(
+            responseCode = "200",
+            description = "Roles retrieved successfully",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(example = 
+                    "[{" +
+                    "    \"Context\": \"Role\"," +
+                    "    \"TotalData\": 2," +
+                    "    \"Data\": [" +
+                    "        {" +
+                    "            \"id\": 1," +
+                    "            \"title\": \"admin\"," +
+                    "            \"description\": \"Administrator role\"" +
+                    "        }," +
+                    "        {" +
+                    "            \"id\": 2," +
+                    "            \"title\": \"user\"," +
+                    "            \"description\": \"Regular user role\"" +
+                    "        }" +
+                    "    ]" +
+                    "}]"
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400",
+            description = "Invalid filter combination",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(example = 
+                    "{" +
+                    "    \"status\": 400," +
+                    "    \"message\": \"Invalid Filter combination.\"," +
+                    "    \"error\": \"Flatten mode can't be combined with other filters.\"," +
+                    "    \"path\": \"/role\"" +
+                    "}"
+                )
+            )
+        ),
+        @ApiResponse(
+            responseCode = "500",
+            description = "Internal Server Error",
+            content = @Content(
+                mediaType = "application/json",
+                schema = @Schema(example = 
+                    "{" +
+                    "    \"status\": 500," +
+                    "    \"message\": \"An unexpected error occurred. Please try again later.\"," +
+                    "    \"error\": \"An unexpected error occurred. Please try again later.\"," +
+                    "    \"path\": \"/role\"" +
+                    "}"
+                )
+            )
+        )
+    })
     @GetMapping()    
     @Override
     public ResponseEntity<?> findAll(
+        @ParameterObject
+        @Valid
         PaginationRolesDto paginationRolesDto
     ) {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(findAllRolesCase.findAll());
+            .body(findAllRolesCase.findAll(paginationRolesDto));
     }
     
 
