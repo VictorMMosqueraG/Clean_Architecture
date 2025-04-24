@@ -1,14 +1,11 @@
 package clean.architecture.cleanarchitecture.application.cases.roles;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import clean.architecture.cleanarchitecture.application.dto.roles.PaginationRolesDto;
+import clean.architecture.cleanarchitecture.application.utils.PaginationUtils;
 import clean.architecture.cleanarchitecture.domain.model.roles.RolesModel;
 import clean.architecture.cleanarchitecture.domain.repository.roles.RolesRepository;
 
@@ -32,7 +29,7 @@ public class FindAllRolesCase {
      * <p>
      * If flatten mode is enabled and any other filter is provided (limit, offset, sortOrder, name),
      * an {@link IllegalArgumentException} will be thrown.
-     * </p>
+     * </p>J
      *
      * @param paginationRolesDto the {@link PaginationRolesDto} containing the pagination
      *                            and filter criteria for the roles retrieval.
@@ -44,9 +41,9 @@ public class FindAllRolesCase {
         // Find all roles in the system
         List<RolesModel> foundRoles = repository.findAll();
 
-        //Destructuring variables
-        boolean flatten = paginationRolesDto != null 
-            && paginationRolesDto.isFlatten();
+         //Destructuring variables
+         boolean flatten = paginationRolesDto != null 
+         && paginationRolesDto.isFlatten();
 
         int limit = paginationRolesDto != null && paginationRolesDto.getLimit() != 0
             ? paginationRolesDto.getLimit() : 50;
@@ -60,62 +57,59 @@ public class FindAllRolesCase {
         String name = paginationRolesDto != null 
             ? paginationRolesDto.getName() : null;
 
-        //if flatter is provide then return with flatten format
-        if (flatten) {
-            //If flatten and other filter is provide it will return error
-            if (limit != 50 || offset != 0 || sortOrder != null || name != null) {
-                throw new IllegalArgumentException("Flatten mode can't be combined with other filters.");
-            }
+        String sortBy = paginationRolesDto != null
+            ? paginationRolesDto.getSortBy() : null;    
 
-            //Create variable response
-            Map<String, Object> response = new LinkedHashMap<>();
 
-            response.put("Context", "Role");
-            response.put("TotalData", foundRoles.size());
-            response.put("Data", foundRoles.stream()
-                .map(book -> {
-                    Map<String, Object> bookMap = new LinkedHashMap<>();
-                    bookMap.put("id", book.getId());
-                    bookMap.put("title", book.getName());
-                    return bookMap;
-                })
-                .collect(Collectors.toList())
-            );
-
-            return Collections.singletonList(response);
-        }
-
-        //Create variable with filter by name
-        Predicate<RolesModel> nameFilter = role ->
-        name == null || role.getName().toLowerCase().contains(name.toLowerCase());
-
-        //Create sort by name with format ASC or DESC
-        Comparator<Map<String, Object>> sort = Comparator.comparing(m -> (String) m.get("title"));
-
-        if ("DESC".equalsIgnoreCase(sortOrder)) {
-            sort = sort.reversed();
-        }
-
-        //Create variable response
-        Map<String, Object> response = new LinkedHashMap<>();
-        
-        response.put("Context", "Role");
-        response.put("TotalData", foundRoles.size());
-        response.put("Data", foundRoles.stream()
-            .filter(nameFilter)
-            .map(book -> {
-                Map<String, Object> bookMap = new LinkedHashMap<>();
-                bookMap.put("id", book.getId());
-                bookMap.put("title", book.getName());
-                bookMap.put("description", book.getDescription());
-                return bookMap;
-            })
-            .skip(offset)
-            .limit(limit)
-            .sorted(sort)
-            .collect(Collectors.toList())
-        );
-
-        return Collections.singletonList(response);
+        //Calling method with filter Data
+        return PaginationUtils.generateResponse(
+            "Role",
+            foundRoles,
+            flatten,
+            limit,
+            offset,
+            sortOrder,
+            sortBy,
+            name,
+            this::flattenMapper,
+            this::detailedMapper
+        );            
     }
+
+    /*
+     * Method to mapper data,
+     * it take a RolesModel and it will mapping data.
+     * 
+     * @param RolesModel role - data to mapping
+     * 
+     * @return Map<String, Object> - Data already map
+    */
+    private Map<String, Object> flattenMapper(RolesModel role) {
+        return Map.of(
+            "id", role.getId(),
+            "name", role.getName()
+        );
+    }
+
+    /**
+     * Method to mapper data,
+     * it take a RolesModel and mapping data
+     * 
+     * @param RolesModel role - data to mapping 
+     * 
+     * @return Map<String,Object> - Data already map
+    */
+    private Map<String, Object> detailedMapper(RolesModel role) {
+        //Creating map object
+        Map<String, Object> map = new LinkedHashMap<>();
+
+        //set data
+        map.put("id", role.getId());
+        map.put("name", role.getName());
+        map.put("description", role.getDescription());
+
+        //Return data
+        return map;
+    }
+
 }

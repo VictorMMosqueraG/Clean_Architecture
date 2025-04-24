@@ -16,6 +16,8 @@ public class PaginationRolesDto extends BasePagination{
     )
     private String name;
 
+  
+
     //Getters and setter
     public String getName() {
         return name;
@@ -25,5 +27,4 @@ public class PaginationRolesDto extends BasePagination{
         this.name = name;
     }
 
-    
 }

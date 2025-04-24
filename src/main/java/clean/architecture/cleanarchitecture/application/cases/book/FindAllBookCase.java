@@ -1,14 +1,11 @@
 package clean.architecture.cleanarchitecture.application.cases.book;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import clean.architecture.cleanarchitecture.application.dto.book.PaginationBookDto;
+import clean.architecture.cleanarchitecture.application.utils.PaginationUtils;
 import clean.architecture.cleanarchitecture.domain.model.book.BookModel;
 import clean.architecture.cleanarchitecture.domain.repository.book.BookRepository;
 
@@ -59,64 +56,61 @@ public class FindAllBookCase {
         String tittle = paginationBookDto != null 
             ? paginationBookDto.getTittle() : null;
 
+        String sortBy = paginationBookDto != null   
+            ? paginationBookDto.getSortBy() : null;
 
-        //if flatter is provide then return with flatten format
-        if (flatten) {
-            //If flatten and other filter is provide it will return error
-            if (limit != 50 || offset != 0 || sortOrder != null || tittle != null) {
-                throw new IllegalArgumentException("Flatten mode can't be combined with other filters.");
-            }
-
-            //Create variable response
-            Map<String, Object> response = new LinkedHashMap<>();
-
-            response.put("Context", "Book");
-            response.put("TotalData", foundBooks.size());
-            response.put("Data", foundBooks.stream()
-                .map(book -> {
-                    Map<String, Object> bookMap = new LinkedHashMap<>();
-                    bookMap.put("id", book.getId());
-                    bookMap.put("title", book.getTittle());
-                    return bookMap;
-                })
-                .collect(Collectors.toList())
-            );
-
-            return Collections.singletonList(response);
-        }
-
-        //Create variable with filter by tittle
-        Predicate<BookModel> tittleFilter = book ->
-        tittle == null || book.getTittle().toLowerCase().contains(tittle.toLowerCase());
-
-        //Create sort by tittle with format ASC or DESC
-        Comparator<Map<String, Object>> sort = Comparator.comparing(m -> (String) m.get("title"));
-
-        if ("DESC".equalsIgnoreCase(sortOrder)) {
-            sort = sort.reversed();
-        }
-
-        //Create variable response
-        Map<String, Object> response = new LinkedHashMap<>();
-        
-        response.put("Context", "Book");
-        response.put("TotalData", foundBooks.size());
-        response.put("Data", foundBooks.stream()
-            .filter(tittleFilter)
-            .map(book -> {
-                Map<String, Object> bookMap = new LinkedHashMap<>();
-                bookMap.put("id", book.getId());
-                bookMap.put("title", book.getTittle());
-                bookMap.put("description", book.getDescription());
-                return bookMap;
-            })
-            .skip(offset)
-            .limit(limit)
-            .sorted(sort)
-            .collect(Collectors.toList())
+        //calling method with filter data
+        return PaginationUtils.generateResponse(
+            "Book",
+            foundBooks,
+            flatten, 
+            limit, 
+            offset, 
+            sortOrder, 
+            sortBy, 
+            tittle, 
+            this::flattenMapper,
+            this::detailedMapper
         );
-
-        return Collections.singletonList(response);
-
     }
+
+
+    /*
+     * Method to mapper data,
+     * it take a BookMode and it will mapping data.
+     * 
+     * @param BookModel book - data to mapping
+     * 
+     * @return Map<String, Object> - Data already map
+    */
+    private Map<String,Object> flattenMapper(BookModel book){
+        return Map.of(
+            "id", book.getId(),
+            "tittle", book.getTittle()
+        );
+    }
+
+
+    /**
+     * Method to mapper data,
+     * it take a BookModel and mapping data
+     * 
+     * @param BookModel role - data to mapping 
+     * 
+     * @return Map<String,Object> - Data already map
+    */
+    private Map<String, Object> detailedMapper(BookModel book){
+        //Creating map object
+        Map<String,Object> map = new LinkedHashMap<>();
+
+        //Set value
+        map.put("id", book.getId());
+        map.put("tittle", book.getTittle());
+        map.put("description", book.getDescription());
+
+        //Return data
+        return map;
+    }
+
+
 }
