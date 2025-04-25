@@ -1,4 +1,4 @@
-package clean.architecture.cleanarchitecture.infrastructure.config.entity;
+package clean.architecture.cleanarchitecture.infrastructure.config.cases;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
